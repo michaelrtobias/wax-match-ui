@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Auth } from "aws-amplify";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,9 +14,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AlbumSharpIcon from "@mui/icons-material/AlbumSharp";
 const pages = ["Dashboard", "Matcher", "Collection"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-export const Navbar = () => {
+interface Props {
+  isLoggedIn: boolean;
+}
+
+export const Navbar: React.FC<Props> = ({ isLoggedIn = false }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -34,10 +38,19 @@ export const Navbar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (loggedIn: boolean, setting: string) => {
     setAnchorElUser(null);
+    if (setting === "Login" || setting === "Logout") {
+      loggedIn ? Auth.signOut() : Auth.federatedSignIn();
+    }
   };
 
+  const settings = [
+    // "Profile",
+    // "Account",
+    // "Dashboard",
+    isLoggedIn ? "Logout" : "Login",
+  ];
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -158,7 +171,11 @@ export const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(isLoggedIn, setting)}
+                  // href={`/${setting.toLowerCase()}`}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
