@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app/index";
-import { Dashboard, Home, Collection, Matcher } from "./views";
+import { Dashboard, Home, Collection, Matcher, DiscogsAuth } from "./views";
 import ErrorPage from "./error-page";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -26,6 +26,15 @@ const router = createBrowserRouter([
       {
         path: "matcher",
         element: <Matcher />,
+      },
+      {
+        path: "discogs",
+        children: [
+          {
+            path: "auth",
+            element: <DiscogsAuth />,
+          },
+        ],
       },
     ],
   },
