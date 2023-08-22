@@ -12,14 +12,20 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import AlbumIcon from "@mui/icons-material/Album";
 import AlbumSharpIcon from "@mui/icons-material/AlbumSharp";
+
 const pages = ["Dashboard", "Matcher", "Collection"];
 
+interface CognitoUser {
+  name?: string;
+}
 interface Props {
   isLoggedIn: boolean;
+  userData: CognitoUser;
 }
 
-export const Navbar: React.FC<Props> = ({ isLoggedIn = false }) => {
+export const Navbar: React.FC<Props> = ({ isLoggedIn = false, userData }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -151,7 +157,9 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn = false }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar>
+                  {userData ? userData.name?.charAt(0) : <AlbumIcon />}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
