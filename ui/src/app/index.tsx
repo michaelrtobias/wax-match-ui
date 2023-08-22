@@ -6,7 +6,7 @@ import { Navbar } from "../common/navbar";
 import Cookies from "js-cookie";
 
 const App: FC = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isAuthFinished, setIsAuthFinished] = useState<boolean>(false);
 
@@ -66,12 +66,10 @@ const App: FC = () => {
       switch (event) {
         case "signIn":
           setUserData(data);
-          console.log("hey");
           setIsLoggedIn(true);
           break;
         case "signOut":
-          setUserData(null);
-          console.log("ho");
+          setUserData({});
           setIsLoggedIn(false);
           break;
         default:
@@ -81,7 +79,7 @@ const App: FC = () => {
   }, []);
   return (
     <>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} userData={userData} />
       <Box id="detail">
         <Outlet />
       </Box>
