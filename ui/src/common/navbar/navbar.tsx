@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AlbumIcon from "@mui/icons-material/Album";
 import AlbumSharpIcon from "@mui/icons-material/AlbumSharp";
+import Cookies from "js-cookie";
 
 const pages = ["Dashboard", "Matcher", "Collection"];
 
@@ -44,10 +45,15 @@ export const Navbar: React.FC<Props> = ({ isLoggedIn = false, userData }) => {
     setAnchorElNav(null);
   };
 
+  const handleSignOut = () => {
+    Auth.signOut();
+    Cookies.remove("discogs_oauth_token");
+    Cookies.remove("discogs_oauth_token_secret");
+  };
   const handleCloseUserMenu = (loggedIn: boolean, setting: string) => {
     setAnchorElUser(null);
     if (setting === "Login" || setting === "Logout") {
-      loggedIn ? Auth.signOut() : Auth.federatedSignIn();
+      loggedIn ? handleSignOut() : Auth.federatedSignIn();
     }
   };
 
