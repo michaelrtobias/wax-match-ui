@@ -16,22 +16,16 @@ const App: FC = () => {
         Cookies.get("amplify-signin-with-hostedUI") === "true";
       if (isCookie) {
         setIsLoggedIn(true);
-        console.log("Is Logged In after cookie check: ", isLoggedIn);
       }
       try {
         const { UserAttributes: user } = await Auth.currentAuthenticatedUser();
-        console.log("passed attributes call");
         setUserData(user);
         setIsLoggedIn(true);
         setIsAuthFinished(true);
-        console.log("userdata", userData);
-        console.log("auth finished", isAuthFinished);
-        console.log("Is Logged In: ", isLoggedIn);
       } catch (error) {
-        console.log("auth error");
         setIsAuthFinished(true);
         setIsLoggedIn(false);
-        console.log(error);
+        console.error(error);
       }
     };
     getCurrentUserDetails();
