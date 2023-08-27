@@ -1,1 +1,6 @@
-export type { RequestTokenBody } from "./api";
+export type {
+  RequestTokenBody,
+  AccessTokenBody,
+  ApiGAtewayResponseHeaders,
+  ApiGatewayRespnse,
+} from "./api";
