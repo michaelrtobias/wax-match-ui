@@ -1,2 +1,2 @@
 export { DiscogsAuth } from "./discogsAuth";
-export { DiscogsAuthTokenLoading } from "./discogsAuthToken";
+export { DiscogsAuthTokenLoading } from "./discogsAuthTokenLoading";
