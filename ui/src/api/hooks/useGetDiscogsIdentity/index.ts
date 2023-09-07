@@ -1,0 +1,1 @@
+export { useGetDiscogsIdentity } from "./useGetDiscogsIdentity";

@@ -3,4 +3,5 @@ export type {
   AccessTokenBody,
   ApiGAtewayResponseHeaders,
   ApiGatewayRespnse,
+  DiscogsIdentity,
 } from "./api";

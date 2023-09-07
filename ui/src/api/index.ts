@@ -3,4 +3,8 @@ export {
   defaultValue,
   formatDiscogsTokenResponse,
 } from "./utils";
-export { useGetRequestToken } from "./hooks";
+export {
+  useGetRequestToken,
+  useGetAccessToken,
+  useGetDiscogsIdentity,
+} from "./hooks";
