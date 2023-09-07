@@ -3,12 +3,18 @@ import { formatDiscogsTokenResponse } from "../../utils";
 import { useQuery } from "react-query";
 import { AccessTokenBody } from "../../../types";
 import { useNavigate } from "react-router-dom";
+import { Auth } from "aws-amplify";
 
 export const useGetAccessToken = (searchParams: URLSearchParams) => {
   const navigate = useNavigate();
 
   const getAccessToken = async (): Promise<AccessTokenBody> => {
     try {
+      const {
+        signInUserSession: {
+          idToken: { jwtToken },
+        },
+      } = await Auth.currentAuthenticatedUser();
       const { data } = await axios.post(
         "https://vapshnrmeh.execute-api.us-east-1.amazonaws.com/dev/discogs/auth/access-token",
         {
@@ -17,6 +23,12 @@ export const useGetAccessToken = (searchParams: URLSearchParams) => {
             "discogs_oauth_token_secret"
           ),
           oauth_verifier: searchParams.get("oauth_verifier"),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: jwtToken,
+          },
         }
       );
       const formattedBody = formatDiscogsTokenResponse(data);
