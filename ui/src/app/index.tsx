@@ -4,6 +4,10 @@ import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../common/navbar";
 import Cookies from "js-cookie";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 const App: FC = () => {
   const [userData, setUserData] = useState({});
@@ -73,10 +77,13 @@ const App: FC = () => {
   }, []);
   return (
     <>
-      <Navbar isLoggedIn={isLoggedIn} userData={userData} />
-      <Box id="detail">
-        <Outlet />
-      </Box>
+      <QueryClientProvider client={queryClient}>
+        <Navbar isLoggedIn={isLoggedIn} userData={userData} />
+        <Box id="detail">
+          <Outlet />
+        </Box>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 };

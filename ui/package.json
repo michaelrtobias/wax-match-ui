@@ -30,6 +30,7 @@
     "npm": "^9.6.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.11.1",
     "sort-by": "^1.2.0",
     "text-encoding": "^0.7.0"
