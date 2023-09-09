@@ -4,4 +4,6 @@ export type {
   ApiGAtewayResponseHeaders,
   ApiGatewayRespnse,
   DiscogsIdentity,
+  HookReturn,
+  DiscogsGetCollectionReleases,
 } from "./api";

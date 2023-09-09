@@ -1,3 +1,3 @@
 export const defaultValue = (value: object, defaultValue: object) => {
-  return value ? value : defaultValue;
+  return value || defaultValue;
 };

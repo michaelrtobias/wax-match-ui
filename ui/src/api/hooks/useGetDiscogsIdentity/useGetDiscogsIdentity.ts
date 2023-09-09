@@ -24,6 +24,8 @@ export const useGetDiscogsIdentity = () => {
           },
         }
       );
+      localStorage.setItem("discogs_username", data.username);
+      localStorage.setItem("discogs_resource_url", data.resource_url);
       return data;
     } catch (e) {
       console.error(e);
