@@ -5,7 +5,10 @@ import { AccessTokenBody } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
-export const useGetAccessToken = (searchParams: URLSearchParams) => {
+export const useGetAccessToken = (
+  searchParams: URLSearchParams,
+  options: object = {}
+) => {
   const navigate = useNavigate();
 
   const getAccessToken = async (): Promise<AccessTokenBody> => {
@@ -49,7 +52,8 @@ export const useGetAccessToken = (searchParams: URLSearchParams) => {
       throw e;
     }
   };
-  return useQuery(["requestToken"], getAccessToken, {
+  return useQuery(["accessToken"], getAccessToken, {
+    ...options,
     onSuccess: () => {
       navigate("/dashboard");
     },

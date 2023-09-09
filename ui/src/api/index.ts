@@ -7,4 +7,5 @@ export {
   useGetRequestToken,
   useGetAccessToken,
   useGetDiscogsIdentity,
+  useGetCollectionReleases,
 } from "./hooks";
