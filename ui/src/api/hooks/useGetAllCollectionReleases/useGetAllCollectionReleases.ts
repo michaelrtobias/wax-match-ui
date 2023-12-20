@@ -3,13 +3,8 @@ import { useQuery } from "react-query";
 import { DiscogsGetCollectionReleases } from "../../../types";
 import { Auth } from "aws-amplify";
 
-export const useGetCollectionReleases = (
-  username: string,
-  per_page?: number,
-  page = 1,
-  options: object = {}
-) => {
-  const getCollectionReleases =
+export const useGetAllCollectionReleases = (options: object = {}) => {
+  const getAllCollectionReleases =
     async (): Promise<DiscogsGetCollectionReleases> => {
       try {
         const {
@@ -17,12 +12,17 @@ export const useGetCollectionReleases = (
             idToken: { jwtToken },
           },
         } = await Auth.currentAuthenticatedUser();
+        const {
+          attributes: { sub: userId },
+        } = await Auth.currentUserInfo();
         const { data } = await axios.get(
-          `https://kkuv0fzer5.execute-api.us-east-1.amazonaws.com/dev/discogs/collections/releases?oauth_token=${localStorage.getItem(
+          `https://kkuv0fzer5.execute-api.us-east-1.amazonaws.com/dev/discogs/collections/sync?oauth_token=${localStorage.getItem(
             "discogs_oauth_access_token"
           )}&oauth_token_secret=${localStorage.getItem(
             "discogs_oauth_access_token_secret"
-          )}&discogs_username=${localStorage.getItem("discogs_username")}`,
+          )}&discogs_username=${localStorage.getItem(
+            "discogs_username"
+          )}&wmuserid=${userId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -36,8 +36,8 @@ export const useGetCollectionReleases = (
         throw e;
       }
     };
-  return useQuery(["discogsCollectionResources"], getCollectionReleases, {
-    enabled: !!username,
+  return useQuery(["discogsAllCollectionResources"], getAllCollectionReleases, {
+    enabled: false,
     ...options,
   });
 };

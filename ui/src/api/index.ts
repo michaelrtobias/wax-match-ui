@@ -8,4 +8,5 @@ export {
   useGetAccessToken,
   useGetDiscogsIdentity,
   useGetCollectionReleases,
+  useGetAllCollectionReleases,
 } from "./hooks";

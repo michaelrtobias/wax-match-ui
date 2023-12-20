@@ -12,7 +12,7 @@ export const useGetDiscogsIdentity = () => {
         },
       } = await Auth.currentAuthenticatedUser();
       const { data } = await axios.get(
-        `https://vapshnrmeh.execute-api.us-east-1.amazonaws.com/dev/discogs/identity?oauth_token=${localStorage.getItem(
+        `https://kkuv0fzer5.execute-api.us-east-1.amazonaws.com/dev/discogs/identity?oauth_token=${localStorage.getItem(
           "discogs_oauth_access_token"
         )}&oauth_token_secret=${localStorage.getItem(
           "discogs_oauth_access_token_secret"

@@ -30,7 +30,7 @@ export interface DiscogsIdentity {
 }
 
 export interface HookReturn {
-  data: DiscogsIdentity;
+  data: DiscogsGetCollectionReleases;
 }
 
 export interface DiscogsGetCollectionReleases {
