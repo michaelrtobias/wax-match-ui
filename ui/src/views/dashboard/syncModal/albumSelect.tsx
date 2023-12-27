@@ -38,9 +38,7 @@ export const AlbumSelectList: FC<ReleaseListProps> = (
   };
 
   const handleSelectAll = () => {
-    const allReleaseIds: number[] = data.releases?.map(
-      (release) => release.basic_information.id
-    );
+    const allReleaseIds: number[] = data.releases?.map((release) => release.id);
     setReleaseIds(allReleaseIds);
   };
   return (
@@ -50,19 +48,17 @@ export const AlbumSelectList: FC<ReleaseListProps> = (
         <Chip label="Select All" onClick={handleSelectAll}></Chip>
       </ListItem>
       {data.releases?.map((release, i) => (
-        <ListItem key={`${release.basic_information.id}-${i}`} disablePadding>
-          <ListItemButton
-            onClick={() => handleToggle(release.basic_information.id)}
-          >
+        <ListItem key={`${release.id}-${i}`} disablePadding>
+          <ListItemButton onClick={() => handleToggle(release.id)}>
             <ListItemText
               primary={`${release.basic_information.artists[0].name} - ${release?.basic_information.title}`}
             />
             <Checkbox
               edge="start"
-              checked={releaseIds.indexOf(release.basic_information.id) !== -1}
+              checked={releaseIds.indexOf(release.id) !== -1}
               disableRipple
               inputProps={{
-                "aria-labelledby": `${release.basic_information.id}`,
+                "aria-labelledby": `${release.id}`,
               }}
             />
           </ListItemButton>
