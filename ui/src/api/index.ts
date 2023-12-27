@@ -9,4 +9,5 @@ export {
   useGetDiscogsIdentity,
   useGetCollectionReleases,
   useGetAllCollectionReleases,
+  useDiscogsSync,
 } from "./hooks";

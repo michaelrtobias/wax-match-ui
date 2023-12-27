@@ -1,6 +1,12 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Button, Dialog, DialogTitle } from "@mui/material";
-import { useGetAllCollectionReleases } from "../../../api";
+import {
+  useDiscogsSync,
+  useGetCollectionReleases,
+  useGetDiscogsIdentity,
+} from "../../../api";
+import { AlbumSelectList } from "./albumSelect";
+import { DiscogsGetCollectionReleases } from "../../../types";
 
 export interface SyncModalProps {
   open: boolean;
@@ -10,8 +16,15 @@ export interface SyncModalProps {
 
 export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
   const { open, onClose } = props;
-  const { refetch } = useGetAllCollectionReleases();
+  const [albumsIdsToSync, setAlbumIdsTosync] = useState([]);
 
+  const { refetch } = useDiscogsSync();
+  const { data: identityData } = useGetDiscogsIdentity();
+
+  const { data, isLoading } = useGetCollectionReleases(
+    identityData?.username as string,
+    "all"
+  );
   const handleClick = () => {
     refetch();
   };
@@ -26,6 +39,12 @@ export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
       <Button variant="contained" onClick={handleClick}>
         Start Sync
       </Button>
+      {!!data && (
+        <AlbumSelectList
+          data={data as DiscogsGetCollectionReleases}
+          isLoading={isLoading}
+        />
+      )}
     </Dialog>
   );
 };

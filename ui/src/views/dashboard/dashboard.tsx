@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
-import { useGetCollectionReleases, useGetDiscogsIdentity } from "../../api";
-import { ReleaseList } from "./releaseList";
-import { DiscogsGetCollectionReleases } from "../../types";
 import { Button } from "@mui/material";
 import { SyncModal } from "./syncModal";
 
 export const Dashboard: FC = () => {
   const [open, setOpen] = useState(false);
 
-  const { data: identityData } = useGetDiscogsIdentity();
-  const { data } = useGetCollectionReleases(identityData?.username as string);
+  // const { data: identityData } = useGetDiscogsIdentity();
+  // const { data } = useGetCollectionReleases(
+  //   identityData?.username as string,
+  //   50
+  // );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,7 +26,7 @@ export const Dashboard: FC = () => {
         Open simple dialog
       </Button>
       <SyncModal open={open} onClose={handleClose} />
-      <ReleaseList data={data as DiscogsGetCollectionReleases} />
+      {/* <ReleaseList data={data as DiscogsGetCollectionReleases} /> */}
     </>
   );
 };

@@ -5,7 +5,7 @@ import { Auth } from "aws-amplify";
 
 export const useGetCollectionReleases = (
   username: string,
-  per_page?: number,
+  per_page?: number | "all",
   page = 1,
   options: object = {}
 ) => {
@@ -22,7 +22,9 @@ export const useGetCollectionReleases = (
             "discogs_oauth_access_token"
           )}&oauth_token_secret=${localStorage.getItem(
             "discogs_oauth_access_token_secret"
-          )}&discogs_username=${localStorage.getItem("discogs_username")}`,
+          )}&discogs_username=${localStorage.getItem(
+            "discogs_username"
+          )}&per_page=${per_page}&page=${page}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -36,8 +38,12 @@ export const useGetCollectionReleases = (
         throw e;
       }
     };
-  return useQuery(["discogsCollectionResources"], getCollectionReleases, {
-    enabled: !!username,
-    ...options,
-  });
+  return useQuery(
+    ["discogsCollectionResources", per_page],
+    getCollectionReleases,
+    {
+      enabled: !!username,
+      ...options,
+    }
+  );
 };

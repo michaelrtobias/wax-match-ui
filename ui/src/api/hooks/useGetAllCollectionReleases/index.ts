@@ -1,1 +1,1 @@
-export { useGetAllCollectionReleases } from "./useGetAllCollectionReleases";
+export { useGetAllCollectionReleases } from "./useGetAllCollections";
