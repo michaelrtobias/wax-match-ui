@@ -23,7 +23,7 @@ export const Dashboard: FC = () => {
     <>
       <h3>DashBoard</h3>
       <Button variant="contained" onClick={handleClickOpen}>
-        Open simple dialog
+        Sync Wax Match W/ Discogs
       </Button>
       <SyncModal open={open} onClose={handleClose} />
       {/* <ReleaseList data={data as DiscogsGetCollectionReleases} /> */}

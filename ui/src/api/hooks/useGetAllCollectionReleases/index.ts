@@ -1,1 +1,0 @@
-export { useGetAllCollectionReleases } from "./useGetAllCollections";

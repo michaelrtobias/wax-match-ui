@@ -16,17 +16,17 @@ export interface SyncModalProps {
 
 export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
   const { open, onClose } = props;
-  const [albumsIdsToSync, setAlbumIdsTosync] = useState([]);
+  const [releaseIds, setReleaseIds] = useState<number[]>([]);
 
-  const { refetch } = useDiscogsSync();
+  const { mutate: discogsSync } = useDiscogsSync();
   const { data: identityData } = useGetDiscogsIdentity();
 
-  const { data, isLoading } = useGetCollectionReleases(
+  const { data } = useGetCollectionReleases(
     identityData?.username as string,
     "all"
   );
   const handleClick = () => {
-    refetch();
+    discogsSync({ releaseIds: releaseIds });
   };
 
   const handleClose = () => {
@@ -42,7 +42,8 @@ export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
       {!!data && (
         <AlbumSelectList
           data={data as DiscogsGetCollectionReleases}
-          isLoading={isLoading}
+          releaseIds={releaseIds}
+          setReleaseIds={setReleaseIds}
         />
       )}
     </Dialog>

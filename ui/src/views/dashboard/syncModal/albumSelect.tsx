@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Checkbox,
   Chip,
@@ -8,19 +7,22 @@ import {
   ListItemText,
 } from "@mui/material";
 import { DiscogsGetCollectionReleases } from "../../../types";
+import { FC } from "react";
 
 export interface ReleaseListProps {
   data: DiscogsGetCollectionReleases;
-  isLoading: boolean;
+  releaseIds: number[];
+  setReleaseIds: (value: number[]) => void;
 }
 
-export const AlbumSelectList = (props: ReleaseListProps) => {
-  const { data } = props;
-  const [checked, setChecked] = useState<number[]>([]);
+export const AlbumSelectList: FC<ReleaseListProps> = (
+  props: ReleaseListProps
+) => {
+  const { data, releaseIds, setReleaseIds } = props;
 
   const handleToggle = (value: number) => {
-    const currentIndex = checked.indexOf(value) as number;
-    const newChecked: number[] = [...checked];
+    const currentIndex = releaseIds.indexOf(value) as number;
+    const newChecked: number[] = [...releaseIds];
 
     if (currentIndex === -1) {
       newChecked.push(value);
@@ -28,18 +30,18 @@ export const AlbumSelectList = (props: ReleaseListProps) => {
       newChecked.splice(currentIndex, 1);
     }
 
-    setChecked(newChecked);
+    setReleaseIds(newChecked);
   };
 
   const handleDeselectAll = () => {
-    setChecked([]);
+    setReleaseIds([]);
   };
 
   const handleSelectAll = () => {
     const allReleaseIds: number[] = data.releases?.map(
       (release) => release.basic_information.id
     );
-    setChecked(allReleaseIds);
+    setReleaseIds(allReleaseIds);
   };
   return (
     <List>
@@ -48,21 +50,21 @@ export const AlbumSelectList = (props: ReleaseListProps) => {
         <Chip label="Select All" onClick={handleSelectAll}></Chip>
       </ListItem>
       {data.releases?.map((release, i) => (
-        <ListItem
-          key={`${release.basic_information.id}-${i}`}
-          secondaryAction={
+        <ListItem key={`${release.basic_information.id}-${i}`} disablePadding>
+          <ListItemButton
+            onClick={() => handleToggle(release.basic_information.id)}
+          >
+            <ListItemText
+              primary={`${release.basic_information.artists[0].name} - ${release?.basic_information.title}`}
+            />
             <Checkbox
-              edge="end"
-              onChange={() => handleToggle(release.basic_information.id)}
-              checked={checked.indexOf(release.basic_information.id) !== -1}
+              edge="start"
+              checked={releaseIds.indexOf(release.basic_information.id) !== -1}
+              disableRipple
               inputProps={{
                 "aria-labelledby": `${release.basic_information.id}`,
               }}
             />
-          }
-        >
-          <ListItemButton>
-            <ListItemText primary={release?.basic_information.title} />
           </ListItemButton>
         </ListItem>
       ))}
