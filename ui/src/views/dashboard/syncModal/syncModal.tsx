@@ -38,6 +38,7 @@ export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
     });
     return results;
   };
+
   const handleClick = () => {
     data &&
       discogsSync({
@@ -50,7 +51,13 @@ export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} sx={{ padding: "10em" }}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      sx={{ padding: "10em", height: "70vh" }}
+      fullWidth
+      maxWidth="md"
+    >
       <DialogTitle>Sync Discogs Collection With Wax Matcher</DialogTitle>
       <Button variant="contained" onClick={handleClick}>
         Start Sync
