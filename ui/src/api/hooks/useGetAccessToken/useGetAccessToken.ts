@@ -19,7 +19,7 @@ export const useGetAccessToken = (
         },
       } = await Auth.currentAuthenticatedUser();
       const { data } = await axios.post(
-        "https://vapshnrmeh.execute-api.us-east-1.amazonaws.com/dev/discogs/auth/access-token",
+        "https://kkuv0fzer5.execute-api.us-east-1.amazonaws.com/dev/discogs/auth/access-token",
         {
           oauth_token: searchParams.get("oauth_token"),
           oauth_token_secret: localStorage.getItem(
@@ -55,6 +55,9 @@ export const useGetAccessToken = (
   return useQuery(["accessToken"], getAccessToken, {
     ...options,
     onSuccess: () => {
+      setTimeout(() => {
+        console.log("waiting");
+      }, 10000);
       navigate("/dashboard");
     },
     onError: () => {

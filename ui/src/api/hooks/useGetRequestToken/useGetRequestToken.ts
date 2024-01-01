@@ -13,7 +13,7 @@ export const useGetRequestToken = () => {
         },
       } = await Auth.currentAuthenticatedUser();
       const { data } = await axios.get(
-        "https://vapshnrmeh.execute-api.us-east-1.amazonaws.com/dev/discogs/auth/request-token",
+        "https://kkuv0fzer5.execute-api.us-east-1.amazonaws.com/dev/discogs/auth/request-token",
         {
           headers: {
             "Content-Type": "application/json",
