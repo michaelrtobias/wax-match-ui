@@ -18,7 +18,6 @@ export interface SyncModalProps {
 export const SyncModal: FC<SyncModalProps> = (props: SyncModalProps) => {
   const { open, onClose } = props;
   const [releaseIds, setReleaseIds] = useState<number[]>([]);
-
   const { mutate: discogsSync } = useDiscogsSync();
   const { data: identityData } = useGetDiscogsIdentity();
 

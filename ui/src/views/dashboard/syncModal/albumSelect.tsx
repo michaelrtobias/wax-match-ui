@@ -25,6 +25,7 @@ export const AlbumSelectList: FC<ReleaseListProps> = (
   props: ReleaseListProps
 ) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [showSelected, setShowSelected] = useState<boolean>(false);
   const { data, releaseIds, setReleaseIds } = props;
 
   const toLowerCaseObjStringValues = (obj: basic_information | artists) => {
@@ -65,6 +66,9 @@ export const AlbumSelectList: FC<ReleaseListProps> = (
     setReleaseIds([]);
   };
 
+  const handleShowSelected = () => {
+    setShowSelected(!showSelected);
+  };
   const handleSelectAll = () => {
     const allReleaseIds: number[] = data.releases?.map((release) => release.id);
     setReleaseIds(allReleaseIds);
@@ -96,33 +100,67 @@ export const AlbumSelectList: FC<ReleaseListProps> = (
       />
       <List>
         <ListItem>
+          {/* show selected chip */}
           <Chip label={`Releases to be synced:  ${releaseIds.length}`}></Chip>
+          <Chip label="Show Selected" onClick={handleShowSelected}></Chip>
           <Chip label="Deselect All" onClick={handleDeselectAll}></Chip>
           <Chip label="Select All" onClick={handleSelectAll}></Chip>
         </ListItem>
-        {data.releases
-          ?.filter(
-            (release) =>
-              includesValue(searchTerm, release.basic_information) ||
-              includesValue(searchTerm, release.basic_information.artists[0])
-          )
-          .map((release, i) => (
-            <ListItem key={`${release.id}-${i}`} disablePadding>
-              <ListItemButton onClick={() => handleToggle(release.id)}>
-                <ListItemText
-                  primary={`${release.basic_information.artists[0].name} - ${release?.basic_information.title}`}
-                />
-                <Checkbox
-                  edge="start"
-                  checked={releaseIds.indexOf(release.id) !== -1}
-                  disableRipple
-                  inputProps={{
-                    "aria-labelledby": `${release.id}`,
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+        {showSelected
+          ? data.releases
+              ?.filter(
+                (release) =>
+                  (includesValue(searchTerm, release.basic_information) &&
+                    releaseIds.indexOf(release.id) !== -1) ||
+                  (includesValue(
+                    searchTerm,
+                    release.basic_information.artists[0]
+                  ) &&
+                    releaseIds.indexOf(release.id) !== -1)
+              )
+              .map((release, i) => (
+                <ListItem key={`${release.id}-${i}`} disablePadding>
+                  <ListItemButton onClick={() => handleToggle(release.id)}>
+                    <ListItemText
+                      primary={`${release.basic_information.artists[0].name} - ${release?.basic_information.title}`}
+                    />
+                    <Checkbox
+                      edge="start"
+                      checked={releaseIds.indexOf(release.id) !== -1}
+                      disableRipple
+                      inputProps={{
+                        "aria-labelledby": `${release.id}`,
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))
+          : data.releases
+              ?.filter(
+                (release) =>
+                  includesValue(searchTerm, release.basic_information) ||
+                  includesValue(
+                    searchTerm,
+                    release.basic_information.artists[0]
+                  )
+              )
+              .map((release, i) => (
+                <ListItem key={`${release.id}-${i}`} disablePadding>
+                  <ListItemButton onClick={() => handleToggle(release.id)}>
+                    <ListItemText
+                      primary={`${release.basic_information.artists[0].name} - ${release?.basic_information.title}`}
+                    />
+                    <Checkbox
+                      edge="start"
+                      checked={releaseIds.indexOf(release.id) !== -1}
+                      disableRipple
+                      inputProps={{
+                        "aria-labelledby": `${release.id}`,
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
       </List>
     </>
   );
